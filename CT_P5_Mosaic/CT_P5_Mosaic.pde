@@ -10,21 +10,21 @@ ArrayList<ImageTile> allImages = new ArrayList<ImageTile>();
 ArrayList<ImageTile>[] brightImages;
 
 // Size of each "cell"
-int sclw = 32;
-int sclh = 18;
+int sclw = 64;
+int sclh = 32;
 int w, h;
 
-int factor = 4;
+int factor = 10;
 
 void settings() {
   size(225*factor, 300*factor);
 }
 
 void setup() {
-  p5Image = loadImage("p5.png");
+  p5Image = loadImage("train_with_P5_2.jpeg");
 
   // Find all the images
-  File[] files = listFiles(sketchPath("data/sample"));
+  File[] files = listFiles(sketchPath("data/thumbs"));
   printArray(files);
   // Use a smaller amount just for testing
   // allImages = new PImage[100];
@@ -51,7 +51,7 @@ void setup() {
     }
   }
 
-  int threshold = 150;
+  int threshold = 10;
 
   // Find the closest image for each brightness value
   for (int i = 0; i < brightImages.length; i++) {
@@ -95,7 +95,7 @@ void draw() {
       image(img, x*sclw, y*sclh, sclw, sclh);
     }
   }
-  
+
   save("codingtrain.png");
   noLoop();
 }
