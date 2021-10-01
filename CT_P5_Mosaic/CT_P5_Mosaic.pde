@@ -10,7 +10,8 @@ ArrayList<ImageTile> allImages = new ArrayList<ImageTile>();
 ArrayList<ImageTile>[] brightImages;
 
 // Size of each "cell"
-int scl = 32;
+int sclw = 32;
+int sclh = 18;
 int w, h;
 
 int factor = 4;
@@ -23,7 +24,7 @@ void setup() {
   p5Image = loadImage("p5.png");
 
   // Find all the images
-  File[] files = listFiles(sketchPath("data/photos"));
+  File[] files = listFiles(sketchPath("data/sample"));
   printArray(files);
   // Use a smaller amount just for testing
   // allImages = new PImage[100];
@@ -64,8 +65,8 @@ void setup() {
   }
 
   // how many cols and rows
-  w = width/scl;
-  h = height/scl;
+  w = width/sclw;
+  h = height/sclh;
 
   smaller = createImage(w, h, RGB);
   smaller.copy(p5Image, 0, 0, p5Image.width, p5Image.height, 0, 0, w, h);
@@ -88,11 +89,14 @@ void draw() {
       PImage img = options.get(randomIndex).img;
 
       fill(brightness(c));
-      noStroke();
-      rect(x*scl, y*scl, scl, scl);
-      image(img, x*scl, y*scl, scl, scl);
+      stroke(0);
+      strokeWeight(1);
+      rect(x*sclw, y*sclh, sclw, sclh);
+      image(img, x*sclw, y*sclh, sclw, sclh);
     }
   }
+  
+  save("codingtrain.png");
   noLoop();
 }
 

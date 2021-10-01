@@ -3,8 +3,8 @@ class ImageTile {
   float brightness;
 
   ImageTile(PImage img_) {
-    img = createImage(scl, scl, RGB);
-    img.copy(img_, 0, 0, img_.width, img_.height, 0, 0, scl, scl);
+    img = createImage(sclw, sclh, RGB);
+    img.copy(img_, 0, 0, img_.width, img_.height, 0, 0, sclw, sclh);
     img.loadPixels();
     // Calculate average brightness
     float avg = 0;
