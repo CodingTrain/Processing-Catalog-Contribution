@@ -8,10 +8,10 @@ ArrayList<ImageTile> allImages = new ArrayList<ImageTile>();
 // Corresponding brightness value
 // Images by brightness
 ArrayList<ImageTile>[] brightImages;
-
+ArrayList<ImageTile>[] unusedImages;
 // Size of each "cell"
-int sclw = 64;
-int sclh = 32;
+int sclw = 80;
+int sclh = 45;
 int w, h;
 
 int factor = 10;
@@ -33,15 +33,14 @@ void setup() {
 
   // Only 256 brightness values
   brightImages = new ArrayList[256];
+  unusedImages = new ArrayList[256];
   // Deal with all the images
   for (int i = 0; i < files.length; i++) {
     String filename = files[i].toString();
-    println(filename);
     if (filename.indexOf(".jpg") > -1) {
       // Load the image
       PImage img = loadImage(filename);
       img.loadPixels();
-      println(img.pixels.length);
       if (img.pixels.length > 1) {
         ImageTile tile = new ImageTile(img);
         allImages.add(tile);
@@ -51,15 +50,18 @@ void setup() {
     }
   }
 
-  int threshold = 10;
+  int threshold = 32;
 
   // Find the closest image for each brightness value
   for (int i = 0; i < brightImages.length; i++) {
     brightImages[i] = new ArrayList<ImageTile>();
+    unusedImages[i] = new ArrayList<ImageTile>();
     for (int j = 0; j < allImages.size(); j++) {
       float diff = abs(i - allImages.get(j).brightness);
       if (diff < threshold) {
-        brightImages[i].add(allImages.get(j));
+        ImageTile image = allImages.get(j);
+        brightImages[i].add(image);
+        unusedImages[i].add(image);
       }
     }
   }
@@ -84,10 +86,16 @@ void draw() {
       color c = smaller.pixels[index];
       int imageIndex = int(brightness(c));
 
-      ArrayList<ImageTile> options = brightImages[imageIndex];
+      ArrayList<ImageTile> options = unusedImages[imageIndex];
+      if (options.size()<1) {
+        unusedImages[imageIndex] = new ArrayList<ImageTile>(brightImages[imageIndex]);
+        options = unusedImages[imageIndex];
+      }
+
       int randomIndex = int(random(options.size()));
       PImage img = options.get(randomIndex).img;
-
+      options.remove(randomIndex);
+      println(options.size());
       fill(brightness(c));
       stroke(0);
       strokeWeight(1);
@@ -95,9 +103,10 @@ void draw() {
       image(img, x*sclw, y*sclh, sclw, sclh);
     }
   }
+  long unixTime = System.currentTimeMillis() / 1000L;
+  save("codingtrain"+unixTime+".png");
 
-  save("codingtrain.png");
-  noLoop();
+  // noLoop();
 }
 
 
