@@ -56,7 +56,7 @@ void settings() {
 }
 
 void setup() {
-  p5Image = loadImage("p5train2.png");
+  p5Image = loadImage("p5-train-final.png");
 
   loadImages();
 
@@ -118,14 +118,14 @@ void draw() {
     //rect(x*sclw, y*sclh, sclw, sclh);
     if (selected != null) {
       float diff = b - selected.brightness;
-      tint(min(255, 255+diff));
+      //tint(min(255, 255+diff));
       image(selected.img, x*sclw, y*sclh, sclw, sclh);
       allImages.remove(selectedIndex);
     }
   }
 
   long unixTime = System.currentTimeMillis() / 1000L;
-  save("codingtrain"+unixTime+".png");
+  save("render/codingtrain"+unixTime+".png");
   println("w " + w);
   println("h " + h);
   noLoop();
