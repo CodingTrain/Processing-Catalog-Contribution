@@ -52,7 +52,8 @@ void loadImages() {
 }
 
 void settings() {
-  size(225*factor, 300*factor);
+  //size(225*factor, 300*factor);
+  size(2240, 2970);
 }
 
 void setup() {
@@ -64,6 +65,11 @@ void setup() {
   w = width/sclw;
   h = height/sclh;
 
+  // 28
+  // 66
+
+  println("w " + w);
+  println("h " + h);
 
   smaller = createImage(w, h, RGB);
   smaller.copy(p5Image, 0, 0, p5Image.width, p5Image.height, 0, 0, w, h);
@@ -125,9 +131,9 @@ void draw() {
   }
 
   long unixTime = System.currentTimeMillis() / 1000L;
+  filter(GRAY);
   save("render/codingtrain"+unixTime+".png");
-  println("w " + w);
-  println("h " + h);
+
   noLoop();
 }
 
